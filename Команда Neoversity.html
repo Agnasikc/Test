@@ -3,7 +3,7 @@
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Onest:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap">
 <style>
-/* Концепт: світла «дошка оголошень на графічному папері». Студентські квитки учасників + одна жирна рамка для блоку команди. */
+/* Концепт: світла « оголошень на графічному папері». Студентські квитки учасників + одна жирна рамка для блоку команди. */
 :root{
   --bg:#EAF0EC; --panel:#F7FAF8; --fg:#112019; --muted:#55665D; --line:#C5D1CA;
   --grid:rgba(17,32,25,.06); --accent:#2340E8; --mark:#D4F057; --mark-fg:#112019;
@@ -166,7 +166,14 @@ button.photo:hover{transform:translate(-3px,-3px);box-shadow:5px 5px 0 var(--fg)
 var MEMBERS = [
   {photo:"", name:"Ілюшенко Костянтин", role:"", quote:"", story:"", exp:"", why:"", goals:"", super:"", future:""},
   {photo:"", name:"Любов Владислав", role:"", quote:"", story:"", exp:"", why:"", goals:"", super:"", future:""},
-  {photo:"", name:"", role:"", quote:"", story:"", exp:"", why:"", goals:"", super:"", future:""},
+  {photo:"Image/david.jpg", name:"Давид Перепічка", role:"Full Stack Developer",
+   quote:"Все, що стається, стається на краще",
+   story:"Мене звуть Давид, мені 17 років. Наразі я навчаюсь у двох університетах: на економіці у Варшаві та в Neoversity. Крім того, працюю PM та Frontend-розробником у компанії KoliSar. А ще я професійний спортсмен з водного поло: багаторазовий чемпіон України, Польщі та Словаччини, також брав участь у таких змаганнях, як чемпіонат Європи, де Україна здобула 4 місце. Спорт навчив мене дисципліні, командній грі та вмінню йти до результату, і цей підхід я переношу в навчання та роботу.",
+   exp:"• PM та Frontend-розробник у KoliSar\n• Робота у великих командах та ведення проєктів з різними сферами\n• Гравець збірної України та багаторазовий чемпіон України, Польщі та Словаччини з водного поло\n• Навчання на економіці (Варшава) та в Neoversity",
+   why:"Я бачу тут можливість розвиватися у сфері, яка мені по-справжньому подобається. Хочу спробувати себе в різних ролях, прокачати лідерські навички та навчитися брати на себе відповідальність за команду як Team Lead.",
+   goals:"Вивчити англійську мову та вийти на стабільний дохід ще до 18 років.",
+   super:"Дисципліна та витримка, які дав мені професійний спорт. Вміння працювати в команді й брати на себе відповідальність. Організованість: поєдную навчання у двох університетах, роботу та тренування. Швидко вчуся і не боюся нових викликів.",
+   future:"Власником своєї digital-компанії або фахівцем у відомій європейській компанії."},
   {photo:"", name:"", role:"", quote:"", story:"", exp:"", why:"", goals:"", super:"", future:""},
   {photo:"", name:"", role:"", quote:"", story:"", exp:"", why:"", goals:"", super:"", future:""},
   {photo:"", name:"", role:"", quote:"", story:"", exp:"", why:"", goals:"", super:"", future:""}
@@ -195,7 +202,7 @@ var TEAM_TEXT = {strong:"", divers:"", values:"", unique:""};
   MEMBERS.forEach(function(m,i){
     var tab=el("button","tab"); tab.type="button"; tab.setAttribute("role","tab"); tab.id="tab"+i; tab.setAttribute("aria-controls","p"+i);
     var av=el("span","av mono"), nm=el("span","nm",label(m,i)), bar=el("span","bar");
-    if(m.photo){av.style.backgroundImage="url('"+m.photo+"')"}else{av.textContent=String(i+1)}
+    av.textContent=String(i+1);
     tab.appendChild(av); tab.appendChild(nm); tab.appendChild(bar); roster.appendChild(tab); tabs.push(tab);
     tab.addEventListener("click",function(){show(i)});
 
