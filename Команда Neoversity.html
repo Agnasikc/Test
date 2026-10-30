@@ -1,0 +1,360 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Команда Neoversity</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Onest:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap">
+<style>
+/* Концепт: світла « оголошень на графічному папері». Студентські квитки учасників + одна жирна рамка для блоку команди. */
+:root{
+  --bg:#EAF0EC; --panel:#F7FAF8; --fg:#112019; --muted:#55665D; --line:#C5D1CA;
+  --grid:rgba(17,32,25,.06); --accent:#2340E8; --mark:#D4F057; --mark-fg:#112019;
+  --f-display:"Unbounded","Arial Black",system-ui,sans-serif;
+  --f-body:"Onest",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-mono:"JetBrains Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0E1512; --panel:#151E1A; --fg:#E6EEE9; --muted:#93A59B; --line:#2A3832;
+  --grid:rgba(230,238,233,.06); --accent:#8FA4FF; --mark:#D4F057; --mark-fg:#112019; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0E1512; --panel:#151E1A; --fg:#E6EEE9; --muted:#93A59B; --line:#2A3832;
+  --grid:rgba(230,238,233,.06); --accent:#8FA4FF; --mark:#D4F057; --mark-fg:#112019; color-scheme:dark}
+
+*{box-sizing:border-box}
+body{
+  background-color:var(--bg); color:var(--fg); font-family:var(--f-body); font-size:16px; line-height:1.55;
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:28px 28px;
+  padding-block:32px 56px;
+  padding-left:max(16px,env(safe-area-inset-left,0px)); padding-right:max(16px,env(safe-area-inset-right,0px));
+}
+.wrap{max-width:1080px;margin:0 auto;display:flex;flex-direction:column;gap:48px}
+.mono{font-family:var(--f-mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase}
+:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+button{font:inherit;color:inherit}
+
+/* hero */
+.hero{display:flex;flex-direction:column;gap:18px}
+.kicker{color:var(--muted)}
+h1{font-family:var(--f-display);font-weight:700;font-size:clamp(34px,7vw,68px);line-height:1.08;margin:0;text-wrap:balance;letter-spacing:-.02em}
+h1 span{background:var(--mark);color:var(--mark-fg);padding:0 .15em;box-decoration-break:clone;-webkit-box-decoration-break:clone}
+.lead{max-width:60ch;margin:0;color:var(--muted);font-size:18px}
+
+/* controls + tabs */
+.cast{display:flex;flex-direction:column;gap:14px}
+.controls{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between}
+.controls .mono{color:var(--muted)}
+.toggle{appearance:none;display:inline-flex;align-items:center;gap:10px;background:var(--panel);border:2px solid var(--fg);padding:8px 14px;cursor:pointer;font-weight:600}
+.toggle:hover{box-shadow:3px 3px 0 var(--fg)}
+.toggle .dot{width:12px;height:12px;background:var(--mark);border:2px solid var(--fg);border-radius:50%}
+.toggle[aria-pressed="false"] .dot{background:transparent}
+.roster{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.tab{appearance:none;position:relative;overflow:hidden;background:var(--panel);border:1.5px solid var(--line);padding:10px 10px 14px;display:flex;flex-direction:column;align-items:flex-start;gap:8px;cursor:pointer;text-align:left;min-width:0}
+.tab:hover{border-color:var(--fg)}
+.tab[aria-selected="true"]{border-color:var(--fg);box-shadow:4px 4px 0 var(--fg)}
+.tab .av{width:40px;height:40px;background:var(--bg);border:1.5px solid var(--line);background-size:cover;background-position:center;display:grid;place-items:center;font-family:var(--f-mono);font-size:13px;color:var(--muted)}
+.tab .nm{font-size:14px;font-weight:600;line-height:1.25;max-width:100%;white-space:normal;overflow-wrap:anywhere}
+.tab .bar{position:absolute;left:0;right:0;bottom:0;height:5px;background:var(--mark);transform:scaleX(0);transform-origin:left}
+.tab.run .bar{animation:fill 5s linear forwards}
+@keyframes fill{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+@media (max-width:560px){.roster{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+/* profile card */
+.profile.in-r{animation:inR .5s cubic-bezier(.2,.7,.2,1) both}
+.profile.in-l{animation:inL .5s cubic-bezier(.2,.7,.2,1) both}
+.profile.out-l{animation:outL .22s ease-in both}
+.profile.out-r{animation:outR .22s ease-in both}
+@keyframes inR{from{opacity:0;transform:translateX(48px)}to{opacity:1;transform:none}}
+@keyframes inL{from{opacity:0;transform:translateX(-48px)}to{opacity:1;transform:none}}
+@keyframes outL{to{opacity:0;transform:translateX(-48px)}}
+@keyframes outR{to{opacity:0;transform:translateX(48px)}}
+.id{background:var(--panel);border:2px solid var(--fg);box-shadow:8px 8px 0 var(--fg);padding:clamp(16px,3vw,28px);display:grid;grid-template-columns:minmax(0,300px) minmax(0,1fr);gap:clamp(20px,4vw,40px);align-items:start}
+@media (max-width:720px){.id{grid-template-columns:minmax(0,1fr)}}
+.photo{aspect-ratio:3/4;width:100%;max-width:100%;background:var(--bg);border:1.5px dashed var(--line);display:grid;place-items:center;overflow:hidden;color:var(--muted);text-align:center;padding:16px}
+.photo.has{border:1.5px solid var(--line);padding:0}
+.photo img{width:100%;height:100%;object-fit:cover;display:block}
+.info{display:flex;flex-direction:column;gap:16px;min-width:0}
+.num{font-family:var(--f-display);font-weight:700;font-size:clamp(48px,9vw,88px);line-height:1;color:transparent;-webkit-text-stroke:1.5px var(--fg)}
+.name{font-family:var(--f-display);font-weight:500;font-size:clamp(22px,3.4vw,32px);line-height:1.2;overflow-wrap:anywhere}
+.role{color:var(--muted);font-size:18px}
+.empty{color:var(--muted);opacity:.8}
+.intro{display:flex;flex-direction:column;gap:8px;margin-top:8px;padding-top:16px;border-top:1.5px solid var(--line)}
+.intro h3{margin:0;display:inline-block;align-self:flex-start;background:var(--mark);color:var(--mark-fg);padding:3px 8px}
+.quote{margin:0;max-width:56ch;white-space:pre-wrap;overflow-wrap:anywhere;font-size:20px;line-height:1.4;font-weight:500}
+.quote:not(.empty)::before{content:"«"}
+.quote:not(.empty)::after{content:"»"}
+
+button.photo{appearance:none;position:relative;cursor:pointer;transition:transform .15s,box-shadow .15s,border-color .15s}
+button.photo:hover{transform:translate(-3px,-3px);box-shadow:5px 5px 0 var(--fg);border-color:var(--fg)}
+.photo .open{position:absolute;left:10px;right:10px;bottom:10px;background:var(--mark);color:var(--mark-fg);border:2px solid var(--fg);padding:6px 10px;text-align:center}
+
+/* dossier modal */
+.modal{position:fixed;inset:0;z-index:50;display:grid;place-items:center;
+  padding-block:max(16px,env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-bottom,0px));
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.mback{position:absolute;inset:0;background:rgba(10,16,13,.72);animation:fade .25s both}
+.mpanel{position:relative;background:var(--bg);border:2px solid var(--fg);box-shadow:8px 8px 0 var(--fg);width:100%;max-width:860px;max-height:100%;overflow:auto;animation:pop .3s cubic-bezier(.2,.7,.2,1) both}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+@keyframes pop{from{opacity:0;transform:translateY(24px) scale(.97)}to{opacity:1;transform:none}}
+.mbar{position:sticky;top:0;z-index:2;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 16px;background:var(--panel);border-bottom:2px solid var(--fg)}
+.mbar .mono{color:var(--muted)}
+.mbtns{display:flex;gap:8px}
+.ib{appearance:none;width:40px;height:40px;display:grid;place-items:center;background:var(--bg);border:1.5px solid var(--fg);cursor:pointer;font-size:18px;line-height:1}
+.ib:hover{background:var(--mark);color:var(--mark-fg)}
+.mbody{display:grid;grid-template-columns:minmax(0,300px) minmax(0,1fr);gap:28px;padding:20px;align-items:start}
+@media (max-width:700px){.mbody{grid-template-columns:minmax(0,1fr)}}
+.mbody.swap{animation:fade .3s both}
+.msheet{display:flex;flex-direction:column;gap:18px;margin-top:8px;padding-top:20px;border-top:1.5px solid var(--line)}
+.mbody .ed{background:var(--panel);min-height:72px}
+
+/* team */
+.team{border:2px solid var(--fg);background:var(--panel);box-shadow:8px 8px 0 var(--fg);padding:clamp(20px,4vw,40px);display:flex;flex-direction:column;gap:28px}
+.team h2{font-family:var(--f-display);font-weight:700;font-size:clamp(26px,4.5vw,44px);line-height:1.1;margin:0;text-wrap:balance;letter-spacing:-.02em}
+.pair{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
+@media (max-width:640px){.pair{grid-template-columns:minmax(0,1fr)}}
+.fld{display:flex;flex-direction:column;gap:8px;min-width:0}
+.fld h3{margin:0;display:inline-block;align-self:flex-start;background:var(--mark);color:var(--mark-fg);padding:3px 8px}
+.ed{background:var(--bg);border:1.5px solid var(--line);padding:14px 16px;min-height:150px;white-space:pre-wrap;overflow-wrap:anywhere;min-width:0}
+.ed.empty{border-style:dashed}
+
+@media (prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;animation-delay:0s!important;transition:none!important}}
+</style>
+
+<div class="wrap">
+  <header class="hero">
+    <div class="mono kicker">Neoversity · наша команда · 4 учасники</div>
+    <h1>Четверо. <span>Одна команда.</span></h1>
+    <p class="lead">Знайомтесь: хто ми, чому обрали Neoversity, які цілі ставимо і куди рухаємося після випуску.</p>
+  </header>
+
+  <section class="cast" aria-label="Учасники команди">
+    <div class="controls">
+      <span class="mono">Учасники · змінюються кожні 5 с</span>
+      <button class="toggle" id="autoBtn" type="button" aria-pressed="true"><span class="dot" aria-hidden="true"></span><span id="autoTxt">Автоперехід: увімкнено</span></button>
+    </div>
+    <nav class="roster" id="roster" role="tablist" aria-label="Учасники команди"></nav>
+    <main id="profiles"></main>
+  </section>
+
+  <section class="team" aria-labelledby="team-h">
+    <div class="mono kicker" style="color:var(--muted)">Разом</div>
+    <h2 id="team-h">Хто ми як команда</h2>
+    <div class="pair" id="teamFields"></div>
+  </section>
+</div>
+
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="mTitle" hidden>
+  <div class="mback" id="mback"></div>
+  <div class="mpanel" id="mpanel">
+    <div class="mbar">
+      <span class="mono" id="mTitle">Досьє</span>
+      <div class="mbtns">
+        <button class="ib" id="mPrev" type="button" aria-label="Попередній учасник">←</button>
+        <button class="ib" id="mNext" type="button" aria-label="Наступний учасник">→</button>
+        <button class="ib" id="mClose" type="button" aria-label="Закрити">✕</button>
+      </div>
+    </div>
+    <div class="mbody" id="mbody"></div>
+  </div>
+</div>
+
+<script>
+/* ==========================================================
+   ЗАПОВНІТЬ ТУТ. Вставте текст між лапками "...".
+   photo: посилання на фото або data:-адреса, наприклад "photos/anna.jpg".
+   Порожні поля показують сірий напис.
+   Для переносу рядка в тексті використовуйте \n.
+   ========================================================== */
+var MEMBERS = [
+ {photo:"Image/kostya.jpg", name:"Іллющенко Костянтин", role:"Backend Developer",
+   quote:"Кожен крок — це досвід, а кожна помилка — можливість стати кращим.",
+   story:"Мене звати Костя, мені 18 років. Зараз я навчаюся та поступово визначаюся зі своїм професійним шляхом. У вільний час іноді займаюся відеомонтажем, адже мені цікаво працювати з відео, експериментувати та створювати щось власне.",
+   exp:"Навчання та постійне здобуття нових знань.\nВідеомонтаж у вільний час і розвиток творчих навичок.\nЗнайомство з новими напрямками та пошук можливостей для самореалізації.",
+   why:"Я обрав Neoversity, тому що хочу розвиватися у сфері IT та здобути знання, які допоможуть мені стати хорошим спеціалістом. Для мене важливо отримати не лише теоретичні знання, а й практичні навички.",
+   goals:"Моя головна мета — стати кваліфікованим IT-фахівцем, отримати практичний досвід і постійно вдосконалювати свої навички.",
+   super:"Я відкритий до нового, готовий навчатися та працювати над собою. Також мені подобається творчий підхід до завдань і пошук нових рішень.",
+   future:"Після випуску я бачу себе хорошим IT-фахівцем, який працює над цікавими проєктами, розвивається у своїй сфері та впевнено рухається до нових цілей."},
+  {photo:"", name:"Любов Владислав", role:"", noRole:true, photoText:"Тут не буде фото", quote:"Хто вміє чекати і тримати фокус, той завжди влучає в язичок мішені.",
+   story:"Мене звуть Влад, мені 19 років. У 2023 році я закінчив малу академію ШАГ - саме це допомогло мені усвідомити, що мені дійсно подобається ІТ. Крім того, я займаюсь професійною стрільбою з лука: брав участь у чемпіонаті Європи, а також у багатьох інших локальних та національних турнірах Австрії, де іноді займав 2 місце. Спорт навчив мене дисципліні, концентрації та вмінню йти до результату, і цей підхід я переношу у навчання та проєкти.",
+   exp:"• Випускник малої академії ШАГ\n• Професійна стрільба з лука",
+   why:"Після закінчення малої академії ШАГ я чітко зрозумів, що хочу продовжувати розвиватися в ІТ. Хочу спробувати працювати в команді та спробувати себе в ролі лідера, щоб прокачати свої навички комунікації та лідерства.",
+   goals:"Покращити фантазію, комунікативні та лідерські навички.",
+   super:"Дисципліна та витримка, які дав мені професійний спорт. Вміння зберігати спокій у стресових ситуаціях і відповідально ставитися до кожного завдання. Швидко вчуся та впевнено приймаю нові виклики.",
+   future:"Власником або працівником IT-компанії"},
+  {photo:"Image/david.jpg", name:"Давид Перепічка", role:"Full Stack Developer",
+   quote:"Все, що стається, стається на краще",
+   story:"Мене звуть Давид, мені 17 років. Наразі я навчаюсь у двох університетах: на економіці у Варшаві та в Neoversity. Крім того, працюю PM та Frontend-розробником у компанії KoliSar. А ще я професійний спортсмен з водного поло: багаторазовий чемпіон України, Польщі та Словаччини, також брав участь у таких змаганнях, як чемпіонат Європи, де Україна здобула 4 місце. Спорт навчив мене дисципліні, командній грі та вмінню йти до результату, і цей підхід я переношу в навчання та роботу.",
+   exp:"• PM та Frontend-розробник у KoliSar\n• Робота у великих командах та ведення проєктів з різними сферами\n• Гравець збірної України та багаторазовий чемпіон України, Польщі та Словаччини з водного поло\n• Навчання на економіці (Варшава) та в Neoversity",
+   why:"Я бачу тут можливість розвиватися у сфері, яка мені по-справжньому подобається. Хочу спробувати себе в різних ролях, прокачати лідерські навички та навчитися брати на себе відповідальність за команду як Team Lead.",
+   goals:"Вивчити англійську мову та вийти на стабільний дохід ще до 18 років.",
+   super:"Дисципліна та витримка, які дав мені професійний спорт. Вміння працювати в команді й брати на себе відповідальність. Організованість: поєдную навчання у двох університетах, роботу та тренування. Швидко вчуся і не боюся нових викликів.",
+   future:"Власником своєї digital-компанії або фахівцем у відомій європейській компанії."},
+  {photo:"Image/danyil.jpg", name:"Клець Даниїл", role:"Майбутній фахівець із кібербезпеки",
+   quote:"Живи так, щоб не було соромно перед собою.",
+   story:"Мене звати Даниїл Клець. Наразі я навчаюся в NEOVERSITY, де хочу отримати міцну базу з програмування та підготуватися до роботи в IT. Професійного досвіду поки не маю, але вже визначився з напрямом, у якому хочу розвиватися: кібербезпека. У вільний час люблю грати в Dota 2 з друзями та спілкуватися в Discord. Моя сильна сторона — швидка адаптація до нових умов. Після випуску хочу стати хорошим фахівцем із кібербезпеки та добре заробляти.",
+   exp:"Професійного досвіду поки немає.",
+   why:"Я обрав NEOVERSITY, щоб отримати гарну базу з програмування.",
+   goals:"Багато заробляти.",
+   super:"Швидко адаптуюся до нових умов.",
+   future:"Після випуску бачу себе хорошим фахівцем із кібербезпеки."}
+];
+/* quote: особиста цитата або фірмова фраза учасника (лапки «» додаються автоматично). */
+var TEAM_TEXT = {
+  strong:"• Дисципліна та витримка, які дав спорт\n• Швидко вчимося й адаптуємося до нового\n• Відповідальність і відкритість до викликів\n• Творчий підхід до завдань",
+  divers:"• Backend, Full Stack і Frontend-розробка\n• Керування проєктами (PM)\n• Кібербезпека та відеомонтаж\n• Спорт: стрільба з лука та водне поло",
+  values:"• Постійне навчання\n• Дисципліна й відповідальність\n• Командна робота\n• Бути чесними перед собою",
+  unique:"Ми різні за напрямками, але схожі за характером: двоє з нас — спортсмени, які знають ціну фокусу та командної гри, а ще є творчість, технічна база й лідерські амбіції. Разом ми закриваємо і код, і безпеку, і керування проєктом."
+};
+/* ========================================================== */
+
+(function(){
+  var N=MEMBERS.length, DELAY=5000;
+  var TEAM=[["strong","Сильні сторони"],["divers","Різноманітність нашого досвіду"],["values","Цінності"],["unique","Унікальність команди"]];
+  var reduce=window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  function el(tag,cls,txt){var e=document.createElement(tag); if(cls)e.className=cls; if(txt!=null)e.textContent=txt; return e}
+  function textBox(val,cls,ph){
+    var d=el("div",cls);
+    if(val&&val.trim()){d.textContent=val}else{d.textContent=ph;d.classList.add("empty")}
+    return d;
+  }
+  function label(m,i){return (m.name&&m.name.trim())||("Учасник "+(i+1))}
+
+  var roster=document.getElementById("roster"), profiles=document.getElementById("profiles");
+  var autoBtn=document.getElementById("autoBtn"), autoTxt=document.getElementById("autoTxt");
+  var tabs=[], panels=[], active=0, auto=true, timer=null, busy=0, modalOpen=false, modalIdx=0, lastFocus=null;
+
+  MEMBERS.forEach(function(m,i){
+    var tab=el("button","tab"); tab.type="button"; tab.setAttribute("role","tab"); tab.id="tab"+i; tab.setAttribute("aria-controls","p"+i);
+    var av=el("span","av mono"), nm=el("span","nm",label(m,i)), bar=el("span","bar");
+    av.textContent=String(i+1);
+    tab.appendChild(av); tab.appendChild(nm); tab.appendChild(bar); roster.appendChild(tab); tabs.push(tab);
+    tab.addEventListener("click",function(){show(i)});
+
+    var pn=el("section","profile"); pn.id="p"+i; pn.setAttribute("role","tabpanel"); pn.setAttribute("aria-labelledby","tab"+i); pn.hidden=true;
+    var card=el("div","id");
+    var ph=el("button","photo"); ph.type="button"; ph.setAttribute("aria-haspopup","dialog"); ph.setAttribute("aria-label","Відкрити досьє: "+label(m,i));
+    if(m.photo){var img=el("img"); img.src=m.photo; img.alt=""; ph.appendChild(img); ph.classList.add("has")}
+    else{ph.appendChild(el("span","mono",m.photoText||"Тут буде фото"))}
+    ph.appendChild(el("span","open mono","Відкрити досьє"));
+    ph.addEventListener("click",function(){openModal(i,ph)});
+    card.appendChild(ph);
+
+    var info=el("div","info");
+    info.appendChild(el("div","num mono",(i+1)+"/"+N));
+    info.appendChild(textBox(m.name,"name","Ім’я та прізвище"));
+    if(!m.noRole)info.appendChild(textBox(m.role,"role","Роль у команді"));
+    var intro=el("div","intro");
+    intro.appendChild(el("h3","mono","Фірмова фраза"));
+    intro.appendChild(textBox(m.quote,"quote","Тут буде цитата або фірмова фраза"));
+    info.appendChild(intro);
+    card.appendChild(info);
+    pn.appendChild(card); profiles.appendChild(pn); panels.push(pn);
+  });
+
+  /* ---------- перемикання та автоперехід ---------- */
+  function restartBar(){
+    tabs.forEach(function(t){t.classList.remove("run")});
+    if(auto&&!modalOpen&&!document.hidden){void tabs[active].offsetWidth; tabs[active].classList.add("run")}
+  }
+  function schedule(){
+    clearTimeout(timer); restartBar();
+    if(auto&&!modalOpen&&!document.hidden){timer=setTimeout(function(){show((active+1)%N,1)},DELAY)}
+  }
+  function show(i,dir,instant){
+    var prev=active;
+    if(i===prev&&!instant){schedule();return}
+    active=i;
+    tabs.forEach(function(t,k){t.setAttribute("aria-selected",k===i?"true":"false");t.tabIndex=k===i?0:-1});
+    if(dir==null)dir=i>=prev?1:-1;
+    var token=++busy, cur=panels[prev];
+    function enter(){
+      if(token!==busy)return;
+      panels.forEach(function(p,k){if(k!==i){p.hidden=true;p.className="profile"}});
+      var p=panels[i]; p.hidden=false; p.className="profile"+(instant?"":(dir>0?" in-r":" in-l"));
+    }
+    if(instant||cur.hidden||reduce){enter()}
+    else{cur.classList.add(dir>0?"out-l":"out-r"); setTimeout(enter,220)}
+    schedule();
+  }
+  roster.addEventListener("keydown",function(e){
+    if(e.key==="ArrowRight"||e.key==="ArrowLeft"){
+      var d=e.key==="ArrowRight"?1:-1, j=(active+(d>0?1:N-1))%N; show(j,d); tabs[j].focus();
+    }
+  });
+  autoBtn.addEventListener("click",function(){
+    auto=!auto;
+    autoBtn.setAttribute("aria-pressed",auto?"true":"false");
+    autoTxt.textContent=auto?"Автоперехід: увімкнено":"Автоперехід: вимкнено";
+    schedule();
+  });
+  document.addEventListener("visibilitychange",schedule);
+  /* ---------- досьє ---------- */
+  var modal=document.getElementById("modal"), mbody=document.getElementById("mbody"), mTitle=document.getElementById("mTitle"),
+      mPanel=document.getElementById("mpanel"), mClose=document.getElementById("mClose");
+  var LABELS={story:"Моя історія",exp:"Досвід",why:"Чому я обрав Neoversity",goals:"Мої цілі",super:"Мої сильні сторони",future:"Де бачу себе після випуску"};
+  var FULL=["story","exp","why","goals","super","future"];
+  function pad(n){return (n<10?"0":"")+n}
+  function buildModal(i,animate){
+    var m=MEMBERS[i]; mbody.innerHTML="";
+    mTitle.textContent="Досьє "+pad(i+1)+" / "+pad(N);
+    var ph=el("div","photo");
+    if(m.photo){var img=el("img"); img.src=m.photo; img.alt=label(m,i); ph.appendChild(img); ph.classList.add("has")}
+    else{ph.appendChild(el("span","mono",m.photoText||"Тут буде фото"))}
+    var info=el("div","info");
+    info.appendChild(el("div","num mono",(i+1)+"/"+N));
+    info.appendChild(textBox(m.name,"name","Ім’я та прізвище"));
+    if(!m.noRole)info.appendChild(textBox(m.role,"role","Роль у команді"));
+    var intro=el("div","intro");
+    intro.appendChild(el("h3","mono","Фірмова фраза"));
+    intro.appendChild(textBox(m.quote,"quote","Тут буде цитата або фірмова фраза"));
+    info.appendChild(intro);
+    var sheet=el("div","msheet");
+    FULL.forEach(function(k){
+      var box=el("div","fld"); box.appendChild(el("h3","mono",LABELS[k])); box.appendChild(textBox(m[k],"ed","Тут буде текст")); sheet.appendChild(box);
+    });
+    info.appendChild(sheet);
+    mbody.appendChild(ph); mbody.appendChild(info);
+    mbody.className="mbody"; if(animate){void mbody.offsetWidth; mbody.className="mbody swap"}
+    mPanel.scrollTop=0;
+  }
+  function openModal(i,opener){
+    modalOpen=true; modalIdx=i; lastFocus=opener||document.activeElement;
+    buildModal(i,false); modal.hidden=false;
+    document.documentElement.style.overflow="hidden";
+    schedule(); mClose.focus();
+  }
+  function closeModal(){
+    if(!modalOpen)return;
+    modalOpen=false; modal.hidden=true; document.documentElement.style.overflow="";
+    if(modalIdx!==active)show(modalIdx,undefined,true); else schedule();
+    if(lastFocus&&lastFocus.focus)lastFocus.focus();
+  }
+  function step(d){modalIdx=(modalIdx+d+N)%N; buildModal(modalIdx,true)}
+  document.getElementById("mback").addEventListener("click",closeModal);
+  mClose.addEventListener("click",closeModal);
+  document.getElementById("mPrev").addEventListener("click",function(){step(-1)});
+  document.getElementById("mNext").addEventListener("click",function(){step(1)});
+  document.addEventListener("keydown",function(e){
+    if(!modalOpen)return;
+    if(e.key==="Escape"){closeModal()}
+    else if(e.key==="ArrowRight"){step(1)}
+    else if(e.key==="ArrowLeft"){step(-1)}
+    else if(e.key==="Tab"){
+      var f=mPanel.querySelectorAll("button"); if(!f.length)return;
+      var first=f[0], last=f[f.length-1];
+      if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus()}
+      else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus()}
+    }
+  });
+
+  show(0,1,true);
+
+  var tf=document.getElementById("teamFields");
+  TEAM.forEach(function(f){
+    var box=el("div","fld"); box.appendChild(el("h3","mono",f[1]));
+    box.appendChild(textBox(TEAM_TEXT[f[0]],"ed","Тут буде текст"));
+    tf.appendChild(box);
+  });
+})();
+</script>
+
+</body></html>
