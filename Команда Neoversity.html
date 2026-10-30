@@ -165,7 +165,13 @@ button.photo:hover{transform:translate(-3px,-3px);box-shadow:5px 5px 0 var(--fg)
    ========================================================== */
 var MEMBERS = [
   {photo:"", name:"Ілюшенко Костянтин", role:"", quote:"", story:"", exp:"", why:"", goals:"", super:"", future:""},
-  {photo:"", name:"Любов Владислав", role:"", quote:"", story:"", exp:"", why:"", goals:"", super:"", future:""},
+  {photo:"", name:"Любов Владислав", role:"", noRole:true, photoText:"Тут не буде фото", quote:"Хто вміє чекати і тримати фокус, той завжди влучає в язичок мішені.",
+   story:"Мене звуть Влад, мені 19 років. У 2023 році я закінчив малу академію ШАГ - саме це допомогло мені усвідомити, що мені дійсно подобається ІТ. Крім того, я займаюсь професійною стрільбою з лука: брав участь у чемпіонаті Європи, а також у багатьох інших локальних та національних турнірах Австрії, де іноді займав 2 місце. Спорт навчив мене дисципліні, концентрації та вмінню йти до результату, і цей підхід я переношу у навчання та проєкти.",
+   exp:"• Випускник малої академії ШАГ\n• Професійна стрільба з лука",
+   why:"Після закінчення малої академії ШАГ я чітко зрозумів, що хочу продовжувати розвиватися в ІТ. Хочу спробувати працювати в команді та спробувати себе в ролі лідера, щоб прокачати свої навички комунікації та лідерства.",
+   goals:"Покращити фантазію, комунікативні та лідерські навички.",
+   super:"Дисципліна та витримка, які дав мені професійний спорт. Вміння зберігати спокій у стресових ситуаціях і відповідально ставитися до кожного завдання. Швидко вчуся та впевнено приймаю нові виклики.",
+   future:"Власником або працівником IT-компанії"},
   {photo:"Image/david.jpg", name:"Давид Перепічка", role:"Full Stack Developer",
    quote:"Все, що стається, стається на краще",
    story:"Мене звуть Давид, мені 17 років. Наразі я навчаюсь у двох університетах: на економіці у Варшаві та в Neoversity. Крім того, працюю PM та Frontend-розробником у компанії KoliSar. А ще я професійний спортсмен з водного поло: багаторазовий чемпіон України, Польщі та Словаччини, також брав участь у таких змаганнях, як чемпіонат Європи, де Україна здобула 4 місце. Спорт навчив мене дисципліні, командній грі та вмінню йти до результату, і цей підхід я переношу в навчання та роботу.",
@@ -210,7 +216,7 @@ var TEAM_TEXT = {strong:"", divers:"", values:"", unique:""};
     var card=el("div","id");
     var ph=el("button","photo"); ph.type="button"; ph.setAttribute("aria-haspopup","dialog"); ph.setAttribute("aria-label","Відкрити досьє: "+label(m,i));
     if(m.photo){var img=el("img"); img.src=m.photo; img.alt=""; ph.appendChild(img); ph.classList.add("has")}
-    else{ph.appendChild(el("span","mono","Тут буде фото"))}
+    else{ph.appendChild(el("span","mono",m.photoText||"Тут буде фото"))}
     ph.appendChild(el("span","open mono","Відкрити досьє"));
     ph.addEventListener("click",function(){openModal(i,ph)});
     card.appendChild(ph);
@@ -218,7 +224,7 @@ var TEAM_TEXT = {strong:"", divers:"", values:"", unique:""};
     var info=el("div","info");
     info.appendChild(el("div","num mono",(i+1)+"/"+N));
     info.appendChild(textBox(m.name,"name","Ім’я та прізвище"));
-    info.appendChild(textBox(m.role,"role","Роль у команді"));
+    if(!m.noRole)info.appendChild(textBox(m.role,"role","Роль у команді"));
     var intro=el("div","intro");
     intro.appendChild(el("h3","mono","Фірмова фраза"));
     intro.appendChild(textBox(m.quote,"quote","Тут буде цитата або фірмова фраза"));
@@ -275,11 +281,11 @@ var TEAM_TEXT = {strong:"", divers:"", values:"", unique:""};
     mTitle.textContent="Досьє "+pad(i+1)+" / "+pad(N);
     var ph=el("div","photo");
     if(m.photo){var img=el("img"); img.src=m.photo; img.alt=label(m,i); ph.appendChild(img); ph.classList.add("has")}
-    else{ph.appendChild(el("span","mono","Тут буде фото"))}
+    else{ph.appendChild(el("span","mono",m.photoText||"Тут буде фото"))}
     var info=el("div","info");
     info.appendChild(el("div","num mono",(i+1)+"/"+N));
     info.appendChild(textBox(m.name,"name","Ім’я та прізвище"));
-    info.appendChild(textBox(m.role,"role","Роль у команді"));
+    if(!m.noRole)info.appendChild(textBox(m.role,"role","Роль у команді"));
     var intro=el("div","intro");
     intro.appendChild(el("h3","mono","Фірмова фраза"));
     intro.appendChild(textBox(m.quote,"quote","Тут буде цитата або фірмова фраза"));
